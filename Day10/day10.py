@@ -1,5 +1,5 @@
 def readData():
-    with open('test.txt', "r") as read_file:
+    with open('input.txt', "r") as read_file:
         inputData = [line.rstrip() for line in read_file]
 
         return inputData
@@ -27,19 +27,19 @@ Find the signal strength during the 20th, 60th, 100th, 140th, 180th, and 220th c
 def part1():
     data = readData()
     cycle = 1
-    values = {}
-    value = 0
+    values = []
+    value = 1
     answer = 0
     while cycle < 222:
         for command in data:
             if command == "noop":
-                values[cycle] = value
+                values.append(value)
                 cycle += 1
                 next
             else:
                 null, amount = command.split(' ')
-                values[cycle + 1] = value
-                values[cycle + 2] = value
+                values.append(value)
+                values.append(value)
                 value += int(amount)
                 cycle += 1
     numbers = [20, 60, 100, 140, 180, 220]
@@ -49,10 +49,26 @@ def part1():
         print(values[number-1])
         print (number * values[number-1])
 
+    print (values)
     print('Part 1 Answer: %s' %answer)
     
-
+    return values
     
 
+def part2(valueData):
+    for i in range(0, 6):
+        for j in range(0, 40):
 
-part1()
+            if j in [
+                valueData[i * 40 + j],
+                valueData[i * 40 + j] + 1,
+                valueData[i * 40 + j] - 1,
+            ]:
+                print("#", end="")
+            else:
+                print(".", end="")
+        print("")
+
+
+valueData = part1()
+part2(valueData)
